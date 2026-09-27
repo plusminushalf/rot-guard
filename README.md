@@ -98,3 +98,7 @@ node test/profile-live.mjs    # fun (chess, cooking), music and interesting idea
 ```
 
 Jev's answers are probabilistic, so a case near a threshold can flip between runs.
+
+## License
+
+[MIT](LICENSE)
