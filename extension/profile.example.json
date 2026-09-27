@@ -1,0 +1,37 @@
+{
+  "profile": "I'm a software engineer at an early-stage startup. I want to get better at my craft, help the company succeed, and eventually ship a small side project of my own. Fun for me is chess and cooking. I want much less video consumption and no doomscrolling. YouTube is for music or genuinely interesting videos (science, engineering, history), not random watching. X is my news feed: checking it twice a day is enough.",
+  "goals": [
+    "Work: shipping at my job: backend engineering, databases, cloud infrastructure, debugging, code review",
+    "Getting better at my craft: programming, distributed systems, papers, docs, long-form technical talks",
+    "Side project: finding and building a small product: product ideas, indie hacking, distribution, pricing",
+    "Founder / business: startup strategy, sales, fundraising, hiring, interviews with serious operators",
+    "Genuinely interesting ideas: psychology, decision-making, science, history",
+    "Health & fitness: training, nutrition, sleep, recovery",
+    "News: knowing what is happening in the world, briefly"
+  ],
+  "fun": [
+    "Chess: games, openings, tournaments, puzzles, analysis",
+    "Cooking: recipes, techniques, kitchen gear"
+  ],
+  "avoid": [
+    "short-form video (YouTube Shorts, Reels, TikTok)",
+    "random video consumption: autoplay, recommendation rabbit holes, videos watched just because they were there",
+    "memes, shitposts, engagement bait",
+    "outrage, political flame wars, drama, gossip, celebrity news",
+    "reaction videos, challenge videos, vlogs, pranks, gaming streams",
+    "sports and entertainment clips",
+    "generic motivational or hustle-porn content",
+    "memecoin shilling, price speculation, trading influencer noise",
+    "endless feeds and doomscrolling, on X or anywhere else",
+    "reading newsletter after newsletter"
+  ],
+  "allowlist": [
+    "github.com", "gitlab.com", "stackoverflow.com", "developer.mozilla.org",
+    "mail.google.com", "calendar.google.com", "docs.google.com", "drive.google.com", "meet.google.com",
+    "linear.app", "notion.so", "slack.com", "app.slack.com",
+    "claude.ai", "typesafe.ai", "console.typesafe.ai", "docs.typesafe.ai",
+    "localhost", "127.0.0.1"
+  ],
+  "trustedCreators": [],
+  "mutedCreators": []
+}

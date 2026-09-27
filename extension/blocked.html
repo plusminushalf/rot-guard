@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blocked</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    main { max-width: 680px; margin: 0 auto; padding: 56px 16px 80px; display: grid; gap: 16px; }
+    .hero h1 { font-size: 56px; letter-spacing: -0.03em; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { font-size: 16px; margin: 10px 0 0; }
+    .what .main { font-size: 16px; font-weight: 600; margin-top: 2px; }
+    .what ul { margin-top: 8px; font-size: 13px; color: var(--muted); }
+    .reasons li { font-size: 15px; }
+    form { display: grid; gap: 10px; }
+    textarea { min-height: 96px; resize: vertical; }
+    .fu { text-align: center; padding: 40px 16px; }
+    .fu h1 { font-size: 96px; letter-spacing: -0.04em; color: var(--accent); }
+    .fu p { font-size: 17px; margin: 12px 0 0; }
+    .fu blockquote { margin: 18px auto 0; max-width: 520px; color: var(--muted); font-style: italic; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="fu" class="fu hidden">
+      <h1>Fuck you.</h1>
+      <p id="fu-why"></p>
+      <p class="muted">This page is locked until midnight. Go do the thing you're avoiding.</p>
+      <blockquote id="fu-reason"></blockquote>
+    </section>
+
+    <section class="hero" id="hero">
+      <h1>Blocked by <em>Jev</em>.</h1>
+      <p class="muted" id="subtitle">This isn't what you said you're about.</p>
+    </section>
+
+    <section class="panel what">
+      <div class="label">What you were on</div>
+      <div class="muted" id="what-head"></div>
+      <div class="main" id="what-main"></div>
+      <ul class="clean" id="what-samples"></ul>
+    </section>
+
+    <section class="panel">
+      <div class="label">Jev's read</div>
+      <div class="stats">
+        <div class="stat"><b id="s-page">–</b><span>on this page today</span></div>
+        <div class="stat"><b id="s-domain">–</b><span>on this site today</span></div>
+        <div class="stat"><b id="s-cat">–</b><span id="s-cat-conf">category</span></div>
+        <div class="stat"><b id="s-rel">–</b><span>relevant to goals</span><div class="bar good"><i id="b-rel"></i></div></div>
+        <div class="stat"><b id="s-rot">–</b><span>waste-of-time / 4</span><div class="bar"><i id="b-rot"></i></div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="label">Why</div>
+      <ul class="clean reasons" id="reasons"></ul>
+    </section>
+
+    <section class="panel">
+      <div class="label">What you said you're about</div>
+      <ul class="clean" id="goals"></ul>
+    </section>
+
+    <section class="panel" id="goal-panel">
+      <div class="label">Is your goal list missing something?</div>
+      <p class="muted" style="margin:0 0 10px">This isn't an excuse, it's an edit: the goal is saved to your settings, every page gets judged against it from now on, and this page is judged again.</p>
+      <form id="goal-form" class="row" style="gap:8px;align-items:stretch">
+        <input type="text" id="goal" placeholder="e.g. Psychology & agency: essays on human behavior, decision-making, mental models">
+        <button type="submit" id="goal-submit" style="white-space:nowrap">Add goal</button>
+      </form>
+      <div class="muted" id="goal-status" style="margin-top:8px;font-size:13px"></div>
+    </section>
+
+    <section class="panel" id="appeal">
+      <div class="label">Think Jev is wrong?</div>
+      <form id="form">
+        <textarea id="text" placeholder="What exactly are you going to get out of this page right now? Be specific. Jev reads this, and if it's an excuse the page stays locked for the rest of the day." required></textarea>
+        <div class="row">
+          <span class="muted" id="status">You get one shot.</span>
+          <div style="display:flex;gap:8px">
+            <button type="button" class="ghost" id="back">Close tab</button>
+            <button type="submit" id="submit">Make my case</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+  <script type="module" src="blocked.js"></script>
+</body>
+</html>

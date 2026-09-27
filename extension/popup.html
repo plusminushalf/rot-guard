@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rot Guard</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    body { width: 380px; padding: 14px; display: grid; gap: 10px; }
+    header { display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 15px; }
+    .main { font-weight: 600; margin-top: 2px; }
+    #samples { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    #reasons li { font-size: 13px; }
+    .probs { display: grid; grid-template-columns: 1fr 44px; gap: 2px 8px; font-size: 12px; }
+    .probs span:nth-child(even) { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+    .domains { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 12px; }
+    .domains span:nth-child(even) { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .actions { display: flex; gap: 8px; }
+    .actions button { flex: 1; }
+    .err { color: var(--accent); font-size: 12px; word-break: break-word; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Rot Guard</h1>
+    <span class="pill" id="status">…</span>
+  </header>
+
+  <section class="panel">
+    <div class="label">You're on</div>
+    <div class="muted" id="head"></div>
+    <div class="main" id="main"></div>
+    <ul class="clean" id="samples"></ul>
+  </section>
+
+  <section class="panel">
+    <div class="stats">
+      <div class="stat"><b id="page-t">–</b><span>this page today</span></div>
+      <div class="stat"><b id="domain-t">–</b><span>this site today</span></div>
+      <div class="stat"><b id="x-hidden">–</b><span>posts & videos hidden today</span></div>
+      <div class="stat"><b id="x-checkins">–</b><span id="x-checkins-label">X check-ins today</span></div>
+      <div class="stat"><b id="reading">–</b><span id="reading-label">newsletters today</span></div>
+    </div>
+  </section>
+
+  <section class="panel" id="verdict-panel" hidden>
+    <div class="label">Jev's analysis</div>
+    <div class="stats">
+      <div class="stat"><b id="rel">–</b><span>relevant to goals</span><div class="bar good"><i id="rel-bar"></i></div></div>
+      <div class="stat"><b id="rot">–</b><span>waste-of-time / 4</span><div class="bar"><i id="rot-bar"></i></div></div>
+    </div>
+    <div class="label" style="margin-top:10px">Category</div>
+    <div class="probs" id="probs"></div>
+    <ul class="clean" id="reasons" style="margin-top:8px"></ul>
+  </section>
+
+  <div class="err" id="error"></div>
+
+  <section class="panel">
+    <div class="label">Today's time by site</div>
+    <div class="domains" id="domains"></div>
+  </section>
+
+  <div class="actions">
+    <button id="analyze">Analyze now</button>
+    <button class="ghost" id="options">Settings</button>
+  </div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Secrets and personal config: never commit these
+.env
+extension/config.local.json
+extension/profile.local.json
+
+.DS_Store

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rot Guard Settings</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="pages.css">
+  <style>
+    main { max-width: 720px; margin: 0 auto; padding: 40px 16px 80px; display: grid; gap: 14px; }
+    textarea { min-height: 90px; }
+    #goals, #avoid { min-height: 150px; }
+    #allowlist { min-height: 200px; font-family: var(--mono); font-size: 12px; }
+    .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .inline { display: flex; gap: 10px; align-items: center; }
+    .inline input[type="number"] { width: 90px; }
+    footer { display: flex; gap: 10px; align-items: center; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Rot Guard</h1>
+    <p class="muted" style="margin:0">Everything below is sent to Jev as <span class="mono">user</span> when it judges a page or your excuse.</p>
+
+    <section class="panel">
+      <div class="label">Who you are</div>
+      <textarea id="profile"></textarea>
+    </section>
+    <section class="panel">
+      <div class="label">Goals: content that serves these is allowed (one per line)</div>
+      <textarea id="goals"></textarea>
+    </section>
+    <section class="panel">
+      <div class="label">Fun: allowed, in moderation (one per line)</div>
+      <div class="hint" style="margin:0 0 8px">Fun isn't progress, so it isn't judged against your goals. It's allowed on content, but the time rules still apply.</div>
+      <textarea id="fun"></textarea>
+    </section>
+    <section class="panel">
+      <div class="label">Brain rot: always block these (one per line)</div>
+      <textarea id="avoid"></textarea>
+    </section>
+    <section class="panel">
+      <div class="label">Creators</div>
+      <div class="hint" style="margin:0 0 8px">Every creator is rated automatically: what Jev knows about them plus the track record of their posts you've seen. These lists override that. One @handle or channel name per line.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div><div class="label">Trusted: never hidden</div><textarea id="trustedCreators" placeholder="@karpathy&#10;@paulg&#10;3Blue1Brown"></textarea></div>
+        <div><div class="label">Muted: always hidden</div><textarea id="mutedCreators" placeholder="@someaccount&#10;MrBeast"></textarea></div>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="label">Never analyze these domains (one per line, subdomains included)</div>
+      <textarea id="allowlist"></textarea>
+    </section>
+    <section class="panel">
+      <div class="label">Rules</div>
+      <label class="inline"><input type="checkbox" id="enabled"> Enabled</label>
+      <label class="inline" style="margin-top:8px"><input type="checkbox" id="xFilter"> On X, judge each post and collapse irrelevant ones to a single line</label>
+      <label class="inline" style="margin-top:8px"><input type="checkbox" id="ytFilter"> On YouTube, judge each video in feeds, search and "Up next", collapse irrelevant ones, and hide Shorts shelves</label>
+      <label class="inline" style="margin-top:8px">X check-ins per day <input type="number" id="xCheckinsPerDay" min="0" max="20"> of up to <input type="number" id="xCheckinMinutes" min="1" max="120"> minutes, a new one after <input type="number" id="xCheckinGapMinutes" min="5" max="600"> minutes away</label>
+      <label class="inline" style="margin-top:8px">Newsletter reading (Substack, Medium, beehiiv, Ghost) <input type="number" id="readingMinutesPerDay" min="0" max="600"> minutes per day</label>
+      <label class="inline" style="margin-top:8px">A good excuse buys <input type="number" id="passMinutes" min="1" max="120"> minutes</label>
+    </section>
+    <section class="panel">
+      <div class="label">Jev API key (optional override)</div>
+      <input type="password" id="apiKey" placeholder="Leave blank to use JEV_API_KEY from .env (config.local.json)">
+      <div class="hint">Model: <input type="text" id="model" style="width:160px;display:inline-block;padding:4px 8px"></div>
+    </section>
+    <section class="panel">
+      <div class="label">Verdict cache</div>
+      <div class="inline"><span class="muted" id="cacheInfo">…</span><button class="ghost" id="clearCache" type="button">Clear</button></div>
+      <div class="hint">Every post, video and page is cached for 1 day, under a signature of its content. Saving a change to your profile, goals, brain-rot list or model clears this cache and all creator ratings.</div>
+    </section>
+    <footer>
+      <button id="save">Save</button>
+      <button class="ghost" id="reset">Reset to defaults</button>
+      <span class="muted" id="saved"></span>
+    </footer>
+  </main>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
