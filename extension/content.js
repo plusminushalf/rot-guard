@@ -357,14 +357,15 @@
     let scanTimer = null;
 
     // Hidden items keep their size and position (collapsing them makes the page
-    // jump while scrolling). The content stays in place in dimmed black & white,
-    // not blurred (blurred thumbnails read like a censored-content site), with a
-    // solid message card in the page's own colors on top.
+    // jump while scrolling). The content stays in place, blurred past reading and
+    // dimmed to black & white, with a solid message card in the page's own
+    // colors on top. Items still being classified are only dimmed, so allowed
+    // ones don't flash from blurred to sharp.
     const style = document.createElement("style");
     style.textContent = `
       [data-rg="pending"] { filter: grayscale(1); opacity: .32; transition: opacity .2s; }
       [data-rg="hidden"] { position: relative !important; }
-      [data-rg="hidden"] > :not(.rg-veil) { filter: grayscale(1); opacity: .32; pointer-events: none; user-select: none; }
+      [data-rg="hidden"] > :not(.rg-veil) { filter: grayscale(1) blur(14px); opacity: .32; pointer-events: none; user-select: none; }
       ${ad.alwaysHide ? `${ad.alwaysHide} { display: none !important; }` : ""}
 
       .rg-veil {
@@ -378,25 +379,27 @@
         --rg-fg: #18181b; --rg-muted: #63636b; --rg-line: rgba(0,0,0,.10); --rg-panel: rgba(255,255,255,.95);
         --rg-btn: rgba(0,0,0,.06); --rg-btn-hover: rgba(0,0,0,.11); --rg-shadow: 0 8px 28px rgba(0,0,0,.14);
       }
-      .rg-card { display: flex; flex-direction: column; gap: 6px; width: min(100%, 440px); min-width: 0; box-sizing: border-box;
-        padding: 16px 18px; border-radius: 14px; background: var(--rg-panel); border: 1px solid var(--rg-line);
+      .rg-card { position: relative; display: flex; flex-direction: column; gap: 6px; width: min(100%, 440px); min-width: 0; box-sizing: border-box;
+        padding: 16px 40px 16px 18px; border-radius: 14px; background: var(--rg-panel); border: 1px solid var(--rg-line);
         box-shadow: var(--rg-shadow); backdrop-filter: blur(6px); }
       .rg-eyebrow { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; color: var(--rg-muted); }
       .rg-eyebrow svg { width: 14px; height: 14px; flex: none; }
       .rg-title { font-size: 14px; font-weight: 500; color: var(--rg-fg);
         display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
       .rg-meta { font-size: 12px; color: var(--rg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .rg-show { all: unset; align-self: flex-start; margin-top: 4px; padding: 6px 13px; border-radius: 999px; cursor: pointer;
-        background: var(--rg-btn); color: var(--rg-fg); font-size: 12px; font-weight: 500; }
-      .rg-show:hover { background: var(--rg-btn-hover); }
+      /* Deliberately small and faint: revealing should take intent, not a reflex click. */
+      .rg-show { all: unset; position: absolute; top: 8px; right: 8px; display: grid; place-items: center;
+        width: 18px; height: 18px; border-radius: 999px; cursor: pointer; color: var(--rg-muted); opacity: .45; }
+      .rg-show svg { width: 10px; height: 10px; }
+      .rg-show:hover { opacity: 1; background: var(--rg-btn-hover); }
 
       /* short items (most X posts): one line, full width */
       .rg-veil.rg-compact { padding: 6px 12px; }
-      .rg-veil.rg-compact .rg-card { flex-direction: row; align-items: center; gap: 12px; width: 100%; max-width: none; padding: 7px 8px 7px 14px; border-radius: 12px; }
+      .rg-veil.rg-compact .rg-card { flex-direction: row; align-items: center; gap: 12px; width: 100%; max-width: none; padding: 7px 34px 7px 14px; border-radius: 12px; }
       .rg-veil.rg-compact .rg-eyebrow { flex: none; }
       .rg-veil.rg-compact .rg-title { flex: 1; font-size: 13px; font-weight: 400; -webkit-line-clamp: 1; }
       .rg-veil.rg-compact .rg-meta { display: none; }
-      .rg-veil.rg-compact .rg-show { align-self: center; margin: 0; flex: none; }
+      .rg-veil.rg-compact .rg-show { top: 50%; transform: translateY(-50%); }
     `;
     document.documentElement.appendChild(style);
 
@@ -410,6 +413,7 @@
     }
 
     const EYE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10.9 10.9 0 0 1 12 5c5 0 9 4.5 10 7-.4 1-1.2 2.3-2.4 3.5M6.6 6.6C4.4 8 2.8 10.1 2 12c1 2.5 5 7 10 7 1.6 0 3.1-.4 4.4-1.1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>`;
+    const CROSS = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
     const cap = (t) => (t ? t[0].toUpperCase() + t.slice(1) : t);
 
     function makeVeil(el, item, v) {
@@ -444,7 +448,9 @@
 
       const show = document.createElement("button");
       show.className = "rg-show";
-      show.textContent = "Show anyway";
+      show.innerHTML = CROSS; // static markup, no page data
+      show.title = "Show anyway";
+      show.setAttribute("aria-label", "Show anyway");
       show.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
