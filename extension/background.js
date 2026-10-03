@@ -416,6 +416,8 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
     "blocked:get": async () => {
       const { blocks, day, locks } = await load();
       const r = blocks[msg.id];
+      // Allowlisting a domain after it got locked lifts the lock too.
+      if (r?.locked && locks[r.key] && isAllowlisted(r.url, (await getSettings()).allowlist)) delete locks[r.key];
       // A lock can be lifted after the fact (new goal, extension update): say so,
       // and the block page sends you back to be judged again.
       return r && {
@@ -441,6 +443,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, change) => {
   if (!change.url || !/^https?:/.test(change.url)) return;
   const { locks } = await load();
   const lock = locks[pageKey(change.url)];
+  if (lock && isAllowlisted(change.url, (await getSettings()).allowlist)) return;
   if (lock) redirectToBlock(tabId, { ...lock, url: change.url, key: pageKey(change.url), locked: true });
 });
 
@@ -448,6 +451,14 @@ chrome.tabs.onUpdated.addListener(async (tabId, change) => {
 // profile, goals, avoid list or model flushes both.
 chrome.storage.onChanged.addListener(async (changes, area) => {
   if (area !== "local" || !changes.settings) return;
+  // Locks on newly allowlisted domains go away (they're never analyzed now).
+  const allowlist = changes.settings.newValue?.allowlist || [];
+  await locked(async () => {
+    const { locks } = await chrome.storage.local.get("locks");
+    if (!locks) return;
+    const kept = Object.fromEntries(Object.entries(locks).filter(([k]) => !isAllowlisted(k.startsWith("http") ? k : `https://${k}`, allowlist)));
+    if (Object.keys(kept).length !== Object.keys(locks).length) await chrome.storage.local.set({ locks: kept });
+  });
   const fp = (v) => settingsFingerprint({ ...DEFAULT_SETTINGS, ...(v || {}) });
   if (fp(changes.settings.oldValue) === fp(changes.settings.newValue)) return;
   await cacheClear();
