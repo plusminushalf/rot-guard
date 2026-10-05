@@ -6,14 +6,14 @@ A Chrome extension that blocks content, not sites. It reads the video, post or a
 
 ## What it does
 
-- **YouTube:** judges each video. Useful ones play, junk gets blocked. Irrelevant tiles in feeds and search collapse. Shorts are always hidden.
-- **X:** judges each post. Irrelevant posts collapse to one line. Ads are always hidden. 2 check-ins a day, 15 minutes each.
+- **YouTube:** judges each video. Useful ones play, junk gets blocked. Irrelevant tiles in feeds and search get blurred out. Shorts are always hidden.
+- **X:** judges each post. Irrelevant posts get blurred out behind a one-line note. Ads are always hidden. 2 check-ins a day, 15 minutes each.
 - **Everything else:** Reddit, LinkedIn, articles and any other page get judged too.
 - **Time:** the longer you stay, the stricter it gets.
 - **Appeals:** one shot. Give a specific reason and you get 15 minutes. Give an excuse and you get "Fuck you." and a lock until midnight.
 - **Fun and music:** your hobbies are never blocked on content. Music is never blocked.
 
-<img src="docs/youtube-filtered.png" width="560" alt="YouTube search: Shorts collapsed, a cooking video kept">
+<img src="docs/youtube-filtered.png" width="560" alt="YouTube search: Shorts blurred out, a cooking video kept">
 
 ## Setup
 
