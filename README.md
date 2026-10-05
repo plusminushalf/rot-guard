@@ -91,6 +91,10 @@ node test/profile-live.mjs    # fun, music, interests
 
 Jev is probabilistic. Cases near a threshold can flip.
 
+## How this was built
+
+Most of the code, tests and docs were written by an AI coding agent (Claude Code), directed by me.
+
 ## License
 
 [MIT](LICENSE)
