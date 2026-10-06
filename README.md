@@ -1,4 +1,9 @@
-# Rot Guard
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/logo-dark.svg">
+    <img src="docs/logo.svg" width="300" alt="Rot Guard">
+  </picture>
+</h1>
 
 A Chrome extension that blocks content, not sites. It reads the video, post or article you're on and asks [TypeSafe Jev](https://docs.typesafe.ai) if it serves your goals. If it doesn't, it's gone.
 
