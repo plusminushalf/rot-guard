@@ -32,6 +32,8 @@ body {
 }
 h1, h2, h3 { margin: 0; line-height: 1.15; }
 .muted { color: var(--muted); }
+.brand { display: flex; align-items: center; gap: 0.45em; }
+.brand img { width: 1.3em; height: 1.3em; }
 .mono { font-family: var(--mono); }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
 .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
